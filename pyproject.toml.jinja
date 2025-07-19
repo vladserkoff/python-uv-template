@@ -1,0 +1,47 @@
+[project]
+name = "{{ project_name }}"
+version = "{{ version }}"
+description = "{{ project_description }}"
+readme = "README.md"
+requires-python = ">={{ python_version }}"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "ipywidgets>=8.1.7",
+    "pre-commit>=4.1.0",
+    "pytest>=8.3.5",
+    "ruff>=0.9.5",
+]
+
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+extend-select = [
+    "I",
+    "UP",
+    "B",
+    "SIM",
+    "NPY",
+    "PERF",
+    "RUF",
+    "PTH",
+    "ANN",
+    "FA",
+]
+ignore = [
+    "ANN003", # Missing type annotation for **kwargs
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

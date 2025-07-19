@@ -1,0 +1,56 @@
+# Instruction for AI
+
+This file provides guidance to AI when working with code in this repository.
+
+## About the project
+
+## Notes on development
+
+- General development plan is located in `docs/plan.md`. Always consult it to understand the general vision of the project and implementation considerations.
+
+## General Guidelines
+
+- Whenever unsure about something that's related to the project, ask the developer for clarification before making changes.
+- Always prefer simple, concise and elegant solutions
+- Do not add optional code if not explicitly asked for
+- Avoid if-else statements with many options, avoid nested if-else blocks, unless required.
+- Make sure to add relevant anchor comments, whenever a file or piece of code is too long, too complex, confusing or could have a bug unrelated to the task you are currently working on.
+- Prefer functional style, avoid creating classes when you can achieve the same with functions
+- Prefer using required parameters when adding new features, avoid `Optional`
+- Do not keep backward compatibility in mind when implementing new features
+- Add usage examples for public-facing APIs to `README.MD`
+- After implementing a feature run it through ruff linter and formatter
+- Keep files under 300 lines of code
+- NEVER use emojis in code
+
+## MCPs
+
+You have access to these MCP servers:
+
+- **context7**: use it to get latest versions of package documentations
+- **fetch**: use it to fetch contents of web pages. Only use it when explicitly asked to fetch something from the internet.
+
+## Build/Lint/Tes/Run Commands
+
+- To run any python commands prefix them with `uv run`, e.g. `uv run python -m ...`
+- Add packages: `uv add`
+- Update environment: `uv sync --all-groups`
+- Lint: `uv run ruff check . --fix`
+- Format: `uv run ruff format .`
+- Run all tests except slow ones: `uv run pytest`
+- Run slow tests (decorated with `@pytest.mark.slow`): `uv run pytest -m slow`
+- All tests: `uv run pytest -m "slow or not slow"`
+
+## Python Code Style Guidelines
+
+- Python 3.11+ with type annotations; `from __future__ import annotations`
+- Follow google python style guide for code and docstrings without duplicating type annotations in docstrings
+- Use Pydantic models for data validation with descriptive field annotations
+- **Naming**: `snake_case` (functions/variables), `PascalCase` (classes), `SCREAMING_SNAKE` (constants).
+- Use descriptive variable names
+- Use absolute imports (`from package._ import _`)
+- Always add type hints for function parameters and return values
+- Error handling should use specific exception types, not bare except
+- Use built-in error types rather than implementing custom ones
+- Pass arguments as keywords, except for the first one - it can be positional
+- Follow PEP 8 conventions for everything not specified here

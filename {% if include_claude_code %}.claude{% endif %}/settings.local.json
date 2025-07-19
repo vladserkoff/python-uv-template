@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv run pytest:*)",
+      "Bash(uv run ruff:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "mcp__Context7__get-library-docs"
+    ],
+    "deny": []
+  },
+  "enableAllProjectMcpServers": false
+}
