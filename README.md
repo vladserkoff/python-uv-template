@@ -10,6 +10,11 @@ Most likely you already have `uv` installed, to create a repo from the template 
 uvx copier copy gh:vladserkoff/python-uv-template path/to/new/project
 ```
 
+Then `cd` to the project directory and enable `pre-commit` hooks:
+```sh
+uv run pre-commit install
+```
+
 ## Notes
 
 It comes with generic instructions for claude code which might not work for you. You can disable it by refusing it during project creation.
