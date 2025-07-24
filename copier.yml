@@ -21,7 +21,11 @@ project_description:
   default: ""
 include_claude_code:
   type: bool
-  help: Do you want to include CLAUDE.md file or not?
+  help: Do you want to include CLAUDE.md file?
+  default: true
+include_docker:
+  type: bool
+  help: Do you want to include Dockerfile?
   default: true
 python_version:
   type: str
