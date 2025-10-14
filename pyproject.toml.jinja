@@ -11,8 +11,6 @@ readme = "README.md"
 requires-python = ">={{ python_version }}"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
 ]
 dependencies = [  ]
 
@@ -30,22 +28,39 @@ line-length = 120
 
 format.docstring-code-format = true
 lint.extend-select = [
+  "A",
   "ANN",
   "B",
+  "EM",
+  "ERA",
   "FA",
+  "FAST",
   "I",
+  "ICN",
+  "ISC",
+  "N",
   "NPY",
   "PERF",
+  "PIE",
+  "PT",
   "PTH",
+  "Q",
+  "RET",
   "RUF",
   "SIM",
   "UP",
 ]
 lint.ignore = [
+  "ANN002", # Missing type annotation for **args
   "ANN003", # Missing type annotation for **kwargs
 ]
 lint.pydocstyle.convention = "google"
+lint.future-annotations = true
+
+[tool.pytest.ini_options]
+addopts = [ "--import-mode=importlib" ]
 
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
+typeCheckingMode = "basic"
