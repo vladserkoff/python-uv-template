@@ -5,10 +5,8 @@
       "Bash(uv run ruff:*)",
       "Bash(grep:*)",
       "Bash(rg:*)",
-      "Bash(find:*)",
-      "mcp__Context7__get-library-docs"
+      "Bash(find:*)"
     ],
     "deny": []
-  },
-  "enableAllProjectMcpServers": false
+  }
 }
