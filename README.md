@@ -12,8 +12,7 @@ uvx copier copy gh:vladserkoff/python-uv-template path/to/new/project
 
 Then `cd` to the project directory, initialize a repo and enable `pre-commit` hooks:
 ```sh
-git init
-uv run pre-commit install
+make init
 ```
 
 ## Notes
