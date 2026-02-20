@@ -26,11 +26,11 @@ include_claude_code:
 include_docker:
   type: bool
   help: Do you want to include Dockerfile?
-  default: true
+  default: false
 python_version:
   type: str
   help: Which python version to use?
-  default: "3.12"
+  default: "3.13"
 version:
   type: str
   help: What is the version of the project?

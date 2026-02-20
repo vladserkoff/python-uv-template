@@ -4,7 +4,9 @@ This file provides guidance for AI assistants working with this codebase.
 
 ## Project Overview
 
-[Add project description and key architectural decisions here]
+**{{ project_name }}**: {{ project_description }}
+
+[Add key architectural decisions and module structure here]
 
 ## Workflow Principles
 
@@ -12,20 +14,18 @@ This file provides guidance for AI assistants working with this codebase.
 - Ask for clarification when requirements are ambiguous or involve architectural decisions
 - Proceed autonomously for straightforward implementations that follow existing patterns
 - Provide concise updates; avoid unnecessary preamble or explanations unless requested
-- Reference code locations using `file_path:line_number` format
 
 ### Code Philosophy
 - Favor simplicity and clarity over cleverness
 - Prefer pure functions over classes unless state management is required
-- Avoid deeply nested conditionals; refactor into separate functions or use early returns
-- Keep files under 300 lines; split larger files by responsibility
-- Use required parameters by default; avoid `Optional` unless truly needed
+- Avoid deeply nested conditionals; use early returns instead
+- Use required parameters by default; avoid `X | None` unless truly optional
 - No backward compatibility required for new features unless specified
 
 ### File Organization
 - Use meaningful file and module names that reflect their purpose
 - Group related functionality together
-- Add brief comments for complex logic or non-obvious decisions
+- Add brief comments only for non-obvious logic or decisions
 - Keep test files parallel to source files
 
 ## Development Commands
@@ -38,68 +38,96 @@ uv add <package>              # Add new package
 uv sync --all-groups          # Update environment
 
 # Code quality
-uv run ruff check . --fix     # Lint and auto-fix
-uv run ruff format .          # Format code
+make lint                     # Lint, auto-fix, format, and type check
+make lint-unsafe              # Same with unsafe auto-fixes
 
 # Testing
-uv run pytest                 # Run fast tests
-uv run pytest -m slow         # Run slow tests only
-uv run pytest -m "slow or not slow"  # Run all tests
+uv run pytest                 # Run tests
 ```
 
 ## Python Style Guide
 
 ### Language Version
-- Python 3.11+ with type annotations
-- Start files with `from __future__ import annotations`
+- Python 3.13+
+- Do **not** add `from __future__ import annotations` — native syntax is fully supported at this version
 
 ### Naming Conventions
 - `snake_case`: functions, variables, modules
-- `PascalCase`: classes, type aliases
+- `PascalCase`: classes
 - `SCREAMING_SNAKE_CASE`: constants
+- `type` keyword for type aliases: `type Vector = list[float]`
 
 ### Type Hints
 - Required for all function parameters and return types
-- Use `|` for unions (e.g., `str | None`)
-- Leverage Pydantic models for complex data validation
+- Use `|` for unions: `str | None`, `int | float`
+- Use built-in generics directly: `list[int]`, `dict[str, str]`, `tuple[int, ...]`
+- Use `type` keyword for type aliases (Python 3.12+): `type Callback = Callable[[int], str]`
+- Use `typing.override` for overriding methods in subclasses
 
 ### Imports
 - Use absolute imports: `from package.module import symbol`
-- Group imports: stdlib, third-party, local (separated by blank lines)
-- Sort alphabetically within groups
+- Group imports: stdlib → third-party → local (separated by blank lines)
+- Sort alphabetically within groups (ruff handles this automatically)
+- Import from `typing` only for constructs not yet in builtins (`Protocol`, `TypeVar`, `overload`, etc.)
 
 ### Functions
-- Pass first argument positionally; remaining as keyword arguments
 - Keep functions focused on a single responsibility
 - Use early returns to reduce nesting
+- Prefer keyword arguments for calls with multiple parameters of the same type
 
 ### Error Handling
-- Use specific exception types (e.g., `ValueError`, `FileNotFoundError`)
+- Use specific exception types (`ValueError`, `FileNotFoundError`, etc.)
 - Avoid bare `except:` clauses
-- Prefer built-in exceptions over custom ones
+- Prefer built-in exceptions over custom ones unless semantics differ
 
 ### Documentation
 - Use Google-style docstrings
-- Don't duplicate type information (already in type hints)
-- Document the "why" not the "what" for non-obvious code
+- Don't duplicate type information already in signatures
+- Document the "why", not the "what", for non-obvious code
 - Add usage examples in README.md for public APIs
+
+### Logging
+- Use `loguru` for all logging: `from loguru import logger`
+- Log at appropriate levels (`logger.debug`, `logger.info`, `logger.warning`, `logger.error`)
+- Do not use the stdlib `logging` module directly
+
+### CLIs
+- Use `typer` for all command-line interfaces
+- Annotate parameters with types and `typer.Option`/`typer.Argument` for help text
+- Keep command logic thin — delegate to core functions
+
+### Output Formatting
+- Use `rich` for structured terminal output (tables, panels, progress bars)
+- Avoid excessive styling; prefer plain text output with light use of colour for emphasis
+- Never use `rich` markup in log messages or exception text
 
 ### Data Validation
 - Use Pydantic models with descriptive field annotations
-- Validate at system boundaries (API inputs, file parsing, etc.)
+- Validate at system boundaries (API inputs, file parsing, CLI args)
+
+## Tooling
+
+| Tool | Purpose | Command |
+|------|---------|---------|
+| ruff | Linting + formatting | `uv run ruff check . --fix && uv run ruff format .` |
+| ty | Type checking | `uv run ty check` |
+| pytest | Testing | `uv run pytest` |
+| pre-commit | Git hooks (lint on commit) | installed via `make init` |
+
+Ruff is configured with line length 120 and Google-style docstrings.
 
 ## Testing Guidelines
 
 - Write tests for all new features and bug fixes
-- Use descriptive test names that explain what is being tested
+- Use descriptive test names that explain what is being tested: `test_<function>_<scenario>`
 - Mark slow tests with `@pytest.mark.slow`
 - Use fixtures for common test setup
+- Tests live alongside source under `tests/` (importlib mode enabled)
 
 ## Quality Checklist
 
 After implementing features:
-1. Run linter: `uv run ruff check . --fix`
-2. Run formatter: `uv run ruff format .`
-3. Run tests: `uv run pytest`
-4. Update README.md if adding public APIs
-5. Verify code follows style guidelines
+1. Run linter and type checker: `make lint`
+2. Run tests: `uv run pytest`
+3. Update README.md if adding public APIs
+4. Verify code follows style guidelines above

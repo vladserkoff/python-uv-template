@@ -12,15 +12,22 @@ requires-python = ">={{ python_version }}"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
 ]
-dependencies = [  ]
+dependencies = [
+  "loguru>=0.7",
+  "pydantic>=2.12",
+  "rich>=14",
+  "typer>=0.15",
+]
 
 [dependency-groups]
 dev = [
-  "ipykernel>=6.29.5",
-  "ipywidgets>=8.1.7",
-  "pre-commit>=4.1",
-  "pytest>=8.3.5",
-  "ruff>=0.9.5",
+  "ipykernel>=7.2",
+  "ipywidgets>=8.1",
+  "pre-commit>=4.5",
+  "pytest>=9",
+  "pytest-cov>=7",
+  "ruff>=0.15",
+  "ty>=0.0.17",
 ]
 
 [tool.ruff]
@@ -59,8 +66,3 @@ lint.future-annotations = true
 
 [tool.pytest.ini_options]
 addopts = [ "--import-mode=importlib" ]
-
-[tool.pyright]
-venvPath = "."
-venv = ".venv"
-typeCheckingMode = "basic"

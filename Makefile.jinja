@@ -1,0 +1,18 @@
+.PHONY: init
+init:
+	git init
+	uv run pre-commit autoupdate # set the version of the hooks to pre-commit config
+	uv run pre-commit install # install pre-commit hooks that run linting and tests on commits
+	uv run python -m ipykernel install --user --name {{ project_name }}
+
+.PHONY: lint
+lint:
+	uv run ruff check . --fix
+	uv run ruff format .
+	uv run ty check
+
+.PHONY: lint-unsafe
+lint-unsafe:
+	uv run ruff check . --fix --unsafe-fixes
+	uv run ruff format .
+	uv run ty check .
