@@ -58,3 +58,13 @@ uv run pre-commit run --all-files   # lint template files (yaml, markdown)
 ```
 
 When editing `.pre-commit-config.yaml.jinja`, leave `rev: ''` — the blank revisions are intentional; `make init` calls `pre-commit autoupdate` in the generated project to fill them in.
+
+## Releasing
+
+Copier fetches templates by git tag. After committing changes, create and push a new tag:
+
+```bash
+git tag v0.0.x && git push origin main --tags
+```
+
+Tags follow `v0.0.x` semver. Check the latest with `git tag --sort=-version:refname | head -1`.

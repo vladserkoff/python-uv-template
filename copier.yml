@@ -11,6 +11,7 @@ _exclude:
     ".DS_Store",
     ".svn",
     "LICENSE",
+    "CLAUDE.md",
   ]
 project_name:
   type: str
